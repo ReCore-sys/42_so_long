@@ -1,26 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_putchars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kshore <kshore@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/14 17:23:59 by kshore            #+#    #+#             */
-/*   Updated: 2024/04/18 01:27:35 by kshore           ###   ########.fr       */
+/*   Created: 2023/02/18 13:36:02 by kshore           #+#    #+#             */
+/*   Updated: 2023/10/30 15:21:00 by kshore           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
+#include <unistd.h>
 
-# include <stdlib.h>
-# include <unistd.h>
-# include "../libft/libft.h"
+int	ft_putchar(char c)
+{
+	write(1, &c, 1);
+	return (1);
+}
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 5
-# endif
+int	ft_putstr(char *str)
+{
+	int	i;
 
-char	*get_next_line(int fd);
-
-#endif
+	i = 0;
+	if (!str)
+	{
+		write(1, "(null)", 6);
+		return (6);
+	}
+	while (str[i])
+	{
+		ft_putchar(str[i]);
+		i++;
+	}
+	return (i);
+}

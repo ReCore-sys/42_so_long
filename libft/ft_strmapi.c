@@ -1,26 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kshore <kshore@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/14 17:23:59 by kshore            #+#    #+#             */
-/*   Updated: 2024/04/18 01:27:35 by kshore           ###   ########.fr       */
+/*   Created: 2023/07/25 23:01:36 by kshore            #+#    #+#             */
+/*   Updated: 2023/07/25 23:03:18 by kshore           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
+#include <stdlib.h>
 
-# include <stdlib.h>
-# include <unistd.h>
-# include "../libft/libft.h"
+char	*ft_strmapi(char const *str, char (*f)(unsigned int, char))
+{
+	char	*res;
+	int		i;
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 5
-# endif
-
-char	*get_next_line(int fd);
-
-#endif
+	if (!str || !f)
+		return (NULL);
+	res = (char *)malloc(ft_strlen((char *)str) + 1);
+	if (!res)
+		return (NULL);
+	i = 0;
+	while (str[i])
+	{
+		res[i] = f(i, str[i]);
+		i++;
+	}
+	res[i] = '\0';
+	return (res);
+}

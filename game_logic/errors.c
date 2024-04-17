@@ -6,7 +6,7 @@
 /*   By: kshore <kshore@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 17:33:01 by kshore            #+#    #+#             */
-/*   Updated: 2024/04/16 19:48:06 by kshore           ###   ########.fr       */
+/*   Updated: 2024/04/18 01:12:40 by kshore           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ static int	horizontalwall(t_complete *game)
 	int	i;
 	int	j;
 
-	i = game->widthmap;
+	i = game->map_width;
 	j = 0;
 	while (j < i)
 	{
-		if (game->map[0][i] == '1' && game->map[game->heightmap - 1][j] == '1')
+		if (game->map[0][i] == '1' && game->map[game->map_height - 1][j] == '1')
 			return (0);
 		j++;
 	}
@@ -34,17 +34,17 @@ static int	verticalwall(t_complete *game)
 	int	width;
 
 	height = 0;
-	width = game->widthmap;
-	while (height < game->heightmap)
+	width = game->map_width;
+	while (height < game->map_height)
 	{
-		if (!(game->map[height][0] == '1' && game->map[height][width - 1] == '1'))
+		if (game->map[height][0] != '1' || game->map[height][width - 1] != '1')
 			return (0);
 		height++;
 	}
 	return (1);
 }
 
-static void	if_walls(t_complete *game)
+void	if_walls(t_complete *game)
 {
 	int	verticalwalls;
 	int	horizontalwalls;
@@ -54,7 +54,7 @@ static void	if_walls(t_complete *game)
 	if (!verticalwalls || !horizontalwalls)
 	{
 		printf("\nThis map is missing the walls\n");
-		exit_point(game);
+		shutdown_game(game);
 	}
 }
 
@@ -68,14 +68,14 @@ static void	count_checker(t_complete *game, int height, int width)
 		game->map[height][width] != '\n')
 	{
 		printf("\nError Here!%c\n", game->map[height][width]);
-		exit_point(game);
+		shutdown_game(game);
 	}
 	if (game->map[height][width] == 'C')
-			game->columncount++;
+		game->columncounter++;
 	if (game->map[height][width] == 'P')
-			game->playercount++;
+		game->playercounter++;
 	if (game->map[height][width] == 'E')
-			game->exitcount++;
+		game->exitcounter++;
 }
 
 void	character_valid(t_complete *game)
@@ -84,27 +84,21 @@ void	character_valid(t_complete *game)
 	int	width;
 
 	height = 0;
-	while (height < game->heightmap - 1)
+	while (height < game->map_height - 1)
 	{
 		width = 0;
-		while (width <= game->widthmap)
+		while (width <= game->map_width)
 		{
 			count_checker(game, height, width);
 			width++;
 		}
 		height++;
 	}
-	if (!(game->playercount == 1 && game->columncount > 1
-			&& game->exitcount == 1))
+	if (!(game->playercounter == 1 && game->columncounter > 1
+			&& game->exitcounter == 1))
 	{
 		printf("\nError\nSomething is wrong!\n");
 		printf("either player, exit or collectable issue\n");
-		exit_point(game);
+		shutdown_game(game);
 	}
-}
-
-void	check_errors(t_complete *game)
-{
-	if_walls(game);
-	character_valid(game);
 }

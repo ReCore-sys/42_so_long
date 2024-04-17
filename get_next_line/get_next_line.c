@@ -6,13 +6,13 @@
 /*   By: kshore <kshore@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 09:56:49 by kshore            #+#    #+#             */
-/*   Updated: 2024/04/16 19:45:41 by kshore           ###   ########.fr       */
+/*   Updated: 2024/04/18 00:01:24 by kshore           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/get_next_line.h"	
 
-static char	*function_name(int fd, char *buf, char *backup)
+static char	*overread_to_buf(int fd, char *buf, char *backup)
 {
 	int		read_line;
 	char	*char_temp;
@@ -38,7 +38,7 @@ static char	*function_name(int fd, char *buf, char *backup)
 	return (backup);
 }
 
-static char	*extract(char *line)
+static char	*extract_target(char *line)
 {
 	size_t	count;
 	char	*backup;
@@ -69,11 +69,11 @@ char	*get_next_line(int fd)
 	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buf)
 		return (0);
-	line = function_name(fd, buf, backup);
+	line = overread_to_buf(fd, buf, backup);
 	free(buf);
 	buf = NULL;
 	if (!line)
 		return (NULL);
-	backup = extract(line);
+	backup = extract_target(line);
 	return (line);
 }

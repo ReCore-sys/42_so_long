@@ -6,7 +6,7 @@
 /*   By: kshore <kshore@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 20:15:54 by kshore            #+#    #+#             */
-/*   Updated: 2024/04/16 19:43:58 by kshore           ###   ########.fr       */
+/*   Updated: 2024/04/18 01:28:19 by kshore           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,36 +21,54 @@
 # include "get_next_line.h"
 # include "../minilibx/mlx.h"
 
+# define TILE_SIZE 32
+
 typedef struct t_start
 {
+	// File descriptor for map file
 	int		fd;
-	int		heightmap;
-	int		widthmap;
-	int		playercount;
-	int		columncount;
-	int		exitcount;
-	int		x_axis;
-	int		y_axis;
-	int		counter;
-	int		collectables;
 
+	// Map dimensions
+	int		map_height;
+	int		map_width;
+
+	// Counters needed for setup
+	int		playercounter;
+	int		columncounter;
+	int		exitcounter;
+
+	// Player coordinates
+	int		player_x;
+	int		player_y;
+
+	// Move counter
+	int		move_counter;
+
+	// Collectables counter
+	int		collectables_counter;
+
+	// The map
 	char	**map;
 
+	// Images
 	void	*floor;
-	void	*barrier;
+	void	*wall;
 	void	*player;
 	void	*exit;
 	void	*collectable;
-	void	*mlxpointer;
-	void	*winpointer;
+
+	// MLX pointers
+	void	*mlx;
+	void	*win;
 
 }	t_complete;
 
-int		exit_point(t_complete *game);
-int		map_reading(t_complete *game, char **argv);
-int		controls_working(int command, t_complete *game);
-void	adding_in_graphics(t_complete *game);
-void	place_images_in_game(t_complete *game);
-void	check_errors(t_complete *game);
+int		shutdown_game(t_complete *game);
+int		read_map_file(t_complete *game, char **argv);
+int		input_handler(int command, t_complete *game);
+void	refresh_graphics(t_complete *game);
+void	place_image(t_complete *game);
+void	if_walls(t_complete *game);
+void	character_valid(t_complete *game);
 
 #endif
