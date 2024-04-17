@@ -6,7 +6,7 @@
 /*   By: kshore <kshore@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 20:15:54 by kshore            #+#    #+#             */
-/*   Updated: 2024/04/18 01:28:19 by kshore           ###   ########.fr       */
+/*   Updated: 2024/04/18 02:58:55 by kshore           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 # define TILE_SIZE 32
 
-typedef struct t_start
+typedef struct s_gamestate
 {
 	// File descriptor for map file
 	int		fd;
@@ -61,14 +61,17 @@ typedef struct t_start
 	void	*mlx;
 	void	*win;
 
-}	t_complete;
+}	t_gamestate;
 
-int		shutdown_game(t_complete *game);
-int		read_map_file(t_complete *game, char **argv);
-int		input_handler(int command, t_complete *game);
-void	refresh_graphics(t_complete *game);
-void	place_image(t_complete *game);
-void	if_walls(t_complete *game);
-void	character_valid(t_complete *game);
+void	shutdown_game(t_gamestate *game);
+int		read_map_file(t_gamestate *game, char **argv);
+int		input_handler(int command, t_gamestate *game);
+void	refresh_graphics(t_gamestate *game);
+void	load_images(t_gamestate *game);
+void	walls_check(t_gamestate *game);
+void	character_valid(t_gamestate *game);
+bool	floodfill_check(t_gamestate *game, int x, int y);
+void	reset_map(t_gamestate *game);
+void	find_player(t_gamestate *game);
 
 #endif

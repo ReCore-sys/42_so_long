@@ -6,13 +6,19 @@
 /*   By: kshore <kshore@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 17:33:01 by kshore            #+#    #+#             */
-/*   Updated: 2024/04/18 01:12:40 by kshore           ###   ########.fr       */
+/*   Updated: 2024/04/18 02:56:39 by kshore           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/so_long.h"
 
-static int	horizontalwall(t_complete *game)
+/**
+ * Checks if the top and bottom of the map have solid walls.
+ *
+ * @param game The game state.
+ * @return true if the map has walls on the top and bottom, false otherwise.
+ */
+static bool	horizontal_walls_check(t_gamestate *game)
 {
 	int	i;
 	int	j;
@@ -22,13 +28,19 @@ static int	horizontalwall(t_complete *game)
 	while (j < i)
 	{
 		if (game->map[0][i] == '1' && game->map[game->map_height - 1][j] == '1')
-			return (0);
+			return (false);
 		j++;
 	}
-	return (1);
+	return (true);
 }
 
-static int	verticalwall(t_complete *game)
+/**
+ * Checks if the left and right of the map have solid walls.
+ *
+ * @param game The game state.
+ * @return true if the map has walls on the left and right, false otherwise.
+ */
+static bool	vertical_walls_check(t_gamestate *game)
 {
 	int	height;
 	int	width;
@@ -38,27 +50,44 @@ static int	verticalwall(t_complete *game)
 	while (height < game->map_height)
 	{
 		if (game->map[height][0] != '1' || game->map[height][width - 1] != '1')
-			return (0);
+			return (false);
 		height++;
 	}
-	return (1);
+	return (true);
 }
 
-void	if_walls(t_complete *game)
+/**
+ * Checks if the map has walls on all sides.
+ *
+ * @param game The game state.
+ */
+void	walls_check(t_gamestate *game)
 {
-	int	verticalwalls;
-	int	horizontalwalls;
+	int	i;
+	int	j;
 
-	verticalwalls = verticalwall(game);
-	horizontalwalls = horizontalwall(game);
-	if (!verticalwalls || !horizontalwalls)
+	i = 0;
+	j = 0;
+	if (!vertical_walls_check(game) || !horizontal_walls_check(game))
 	{
 		printf("\nThis map is missing the walls\n");
 		shutdown_game(game);
 	}
+	find_player(game);
+	if (!floodfill_check(game, game->player_x, game->player_y))
+	{
+		printf("\nThis map is not solvable\n");
+		shutdown_game(game);
+	}
+	reset_map(game);
 }
 
-static void	count_checker(t_complete *game, int height, int width)
+/**
+ * Is run on every tile of the map to check if the characters are valid.
+ *
+ * @param game The game state.
+ */
+static void	count_checker(t_gamestate *game, int height, int width)
 {
 	if (game->map[height][width] != '1' &&
 		game->map[height][width] != '0' &&
@@ -73,12 +102,19 @@ static void	count_checker(t_complete *game, int height, int width)
 	if (game->map[height][width] == 'C')
 		game->columncounter++;
 	if (game->map[height][width] == 'P')
+	{
 		game->playercounter++;
+	}
 	if (game->map[height][width] == 'E')
 		game->exitcounter++;
 }
 
-void	character_valid(t_complete *game)
+/**
+ * Checks if the characters in the map are valid.
+ *
+ * @param game The game state.
+ */
+void	character_valid(t_gamestate *game)
 {
 	int	height;
 	int	width;

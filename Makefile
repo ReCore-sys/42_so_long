@@ -1,8 +1,8 @@
 NAME := so_long
 
-CC := gcc
+CC := cc
 
-CFLAGS := -Wall -Wextra -Werror -Iheaders/ -O2
+CFLAGS := -Wall -Wextra -Werror -Iheaders/ -O2 -g
 
 SOURCE := game_logic/*.c
 GETNEXTLINE := get_next_line/*c

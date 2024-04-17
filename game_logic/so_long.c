@@ -6,13 +6,18 @@
 /*   By: kshore <kshore@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 16:49:02 by kshore            #+#    #+#             */
-/*   Updated: 2024/04/18 01:13:30 by kshore           ###   ########.fr       */
+/*   Updated: 2024/04/18 03:09:40 by kshore           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/so_long.h"
 
-int	shutdown_game(t_complete *game)
+/**
+ * Shuts down the game and frees the allocated memory.
+ *
+ * @param game The gamestate structure containing the game data.
+ */
+void	shutdown_game(t_gamestate *game)
 {
 	int	line;
 
@@ -28,17 +33,17 @@ int	shutdown_game(t_complete *game)
 
 int	main(int argc, char **argv)
 {
-	t_complete	game;
+	t_gamestate	game;
 
 	if (argc != 2)
 		return (0);
-	ft_memset(&game, 0, sizeof(t_complete));
+	ft_memset(&game, 0, sizeof(t_gamestate));
 	read_map_file(&game, argv);
-	(if_walls(&game), character_valid(&game));
+	(walls_check(&game), character_valid(&game));
 	game.mlx = mlx_init();
 	game.win = mlx_new_window(game.mlx, (game.map_width * TILE_SIZE),
-			(game.map_height * TILE_SIZE), "solong");
-	place_image(&game);
+			(game.map_height * TILE_SIZE), "so_long");
+	load_images(&game);
 	refresh_graphics(&game);
 	mlx_key_hook(game.win, input_handler, &game);
 	mlx_hook(game.win, 17, 0, (void *)exit, 0);

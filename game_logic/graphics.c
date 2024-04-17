@@ -6,13 +6,20 @@
 /*   By: kshore <kshore@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 19:06:51 by kshore            #+#    #+#             */
-/*   Updated: 2024/04/18 01:26:23 by kshore           ###   ########.fr       */
+/*   Updated: 2024/04/18 02:58:01 by kshore           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/so_long.h"
 
-void	place_player(t_complete *game, int height, int width)
+/**
+ * Places the player in the game at the specified height and width coordinates.
+ *
+ * @param game The gamestate struct representing the current game.
+ * @param height The height coordinate where the player should be placed.
+ * @param width The width coordinate where the player should be placed.
+ */
+void	place_player(t_gamestate *game, int height, int width)
 {
 	mlx_put_image_to_window(game->mlx,
 		game->win, game->player, \
@@ -21,7 +28,14 @@ void	place_player(t_complete *game, int height, int width)
 	game->player_x = width;
 }
 
-void	place_collectable(t_complete *game, int height, int width)
+/**
+ * Places a collectable in the game at the specified height and width coordinates
+ *
+ * @param game The gamestate object representing the current state of the game.
+ * @param height The height coordinate where the collectable should be placed.
+ * @param width The width coordinate where the collectable should be placed.
+ */
+void	place_collectable(t_gamestate *game, int height, int width)
 {
 	mlx_put_image_to_window(game->mlx,
 		game->win, game->collectable, \
@@ -29,24 +43,37 @@ void	place_collectable(t_complete *game, int height, int width)
 	game->collectables_counter++;
 }
 
-void	place_image(t_complete *game)
+/**
+ * Loads images for the game.
+ *
+ * @param game A pointer to the gamestate struct.
+ */
+void	load_images(t_gamestate *game)
 {
-	int	i;
-	int	j;
+	int	x;
+	int	y;
 
 	game->floor = mlx_xpm_file_to_image(game->mlx,
-			"assets/floor.xpm", &i, &j);
+			"assets/floor.xpm", &x, &y);
 	game->wall = mlx_xpm_file_to_image(game->mlx,
-			"assets/wall.xpm", &i, &j);
+			"assets/wall.xpm", &x, &y);
 	game->player = mlx_xpm_file_to_image(game->mlx,
-			"assets/player.xpm", &i, &j);
+			"assets/player.xpm", &x, &y);
 	game->exit = mlx_xpm_file_to_image(game->mlx,
-			"assets/exit.xpm", &i, &j);
+			"assets/exit.xpm", &x, &y);
 	game->collectable = mlx_xpm_file_to_image(game->mlx,
-			"assets/gold.xpm", &i, &j);
+			"assets/gold.xpm", &x, &y);
 }
 
-void	refresh_graphics(t_complete *game)
+/**
+ * Refreshes the graphics of the game.
+ *
+ * This function updates the game's display based on the current game state.
+ * It takes a pointer to a `t_gamestate` structure as a parameter.
+ *
+ * @param game A pointer to the game state structure.
+ */
+void	refresh_graphics(t_gamestate *game)
 {
 	int	height;
 	int	width;

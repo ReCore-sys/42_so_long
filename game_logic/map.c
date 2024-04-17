@@ -6,12 +6,18 @@
 /*   By: kshore <kshore@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 17:34:01 by kshore            #+#    #+#             */
-/*   Updated: 2024/04/18 01:27:04 by kshore           ###   ########.fr       */
+/*   Updated: 2024/04/18 02:51:51 by kshore           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/so_long.h"
 
+/**
+ * Calculates the width of the map based on the given string.
+ *
+ * @param string The string representing the map.
+ * @return The width of the map.
+ */
 static int	get_map_width(char *string)
 {
 	int	width;
@@ -24,7 +30,14 @@ static int	get_map_width(char *string)
 	return (width);
 }
 
-static int	add_line(t_complete *game, char *line)
+/**
+ * Adds a line to the game map.
+ *
+ * @param game The gamestate struct representing the current game.
+ * @param line The line to be added to the map.
+ * @return The status of the operation (0 for success, -1 for failure).
+ */
+static int	add_line(t_gamestate *game, char *line)
 {
 	char	**temporary;
 	int		i;
@@ -47,7 +60,14 @@ static int	add_line(t_complete *game, char *line)
 	return (1);
 }
 
-int	read_map_file(t_complete *game, char **argv)
+/**
+ * Reads the map file and initializes the game state.
+ *
+ * @param game The game state structure.
+ * @param argv The command line arguments.
+ * @return Returns 0 on success, -1 on failure.
+ */
+int	read_map_file(t_gamestate *game, char **argv)
 {
 	char	*readmap;
 
