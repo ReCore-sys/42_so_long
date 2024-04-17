@@ -12,20 +12,24 @@ LIBRARY := -Lminilibx -lmlx -framework OpenGL -framework AppKit -Llibft -lft
 
 all: $(NAME)
 
-$(NAME): minilibx/libmlx.a libft/libft.a
+$(NAME): minilibx/libmlx.a libft/libft.a $(SOURCE)
 	$(CC) $(CFLAGS) $(SOURCE) $(GETNEXTLINE) $(LIBRARY) -o $(NAME)
 
 minilibx/libmlx.a:
-	make -C minilibx
+	@make -C minilibx
 
 libft/libft.a:
-	make -C libft
+	@make -C libft
+
+clean:
+	make clean -C minilibx
+	make clean -C libft
 
 fclean:
-		make clean -C minilibx
-		make fclean -C libft
-		rm -rf $(NAME)
+	make clean -C minilibx
+	make fclean -C libft
+	rm -rf $(NAME)
 
 re: fclean all
 
-.PHONY: all fclean re
+.PHONY: all fclean re clean
