@@ -6,7 +6,7 @@
 /*   By: kshore <kshore@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 20:15:54 by kshore            #+#    #+#             */
-/*   Updated: 2024/04/18 02:58:55 by kshore           ###   ########.fr       */
+/*   Updated: 2024/04/22 14:48:06 by kshore           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct s_gamestate
 }	t_gamestate;
 
 void	shutdown_game(t_gamestate *game);
-int		read_map_file(t_gamestate *game, char **argv);
+bool	read_map_file(t_gamestate *game, char **argv);
 int		input_handler(int command, t_gamestate *game);
 void	refresh_graphics(t_gamestate *game);
 void	load_images(t_gamestate *game);

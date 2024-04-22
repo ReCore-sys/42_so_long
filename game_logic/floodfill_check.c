@@ -6,7 +6,7 @@
 /*   By: kshore <kshore@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 02:24:00 by kshore            #+#    #+#             */
-/*   Updated: 2024/04/18 02:57:10 by kshore           ###   ########.fr       */
+/*   Updated: 2024/04/22 14:42:51 by kshore           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ bool	floodfill_check(t_gamestate *game, int x, int y)
  * Resets the game map.
  *
  * This function resets the game map by clearing all the special tiles used for 
- * floodfill and resetting the player's position and score.
+ * floodfill.
  *
  * @param game A pointer to the gamestate struct.
  */
@@ -72,7 +72,7 @@ void	reset_map(t_gamestate *game)
 }
 
 /**
- * Finds the player in the game state.
+ * Finds the player's position in the game state.
  *
  * @param game The game state.
  */

@@ -6,7 +6,7 @@
 /*   By: kshore <kshore@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 16:49:02 by kshore            #+#    #+#             */
-/*   Updated: 2024/04/18 03:09:40 by kshore           ###   ########.fr       */
+/*   Updated: 2024/04/22 14:49:23 by kshore           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		return (0);
 	ft_memset(&game, 0, sizeof(t_gamestate));
-	read_map_file(&game, argv);
+	if (!read_map_file(&game, argv))
+		return (ft_printf("Could not load map file, does it exist?\n"), 0);
 	(walls_check(&game), character_valid(&game));
 	game.mlx = mlx_init();
 	game.win = mlx_new_window(game.mlx, (game.map_width * TILE_SIZE),
